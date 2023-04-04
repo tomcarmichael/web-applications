@@ -22,4 +22,14 @@ class Application < Sinatra::Base
     repo = AlbumRepository.new
     repo.create(album)
   end
+
+  get '/artists' do
+    repo = ArtistRepository.new
+    artists = repo.all
+    artist_names = []
+    artists.each do |artist|
+      artist_names << artist.name
+    end
+    return artist_names.join(', ')
+  end
 end
