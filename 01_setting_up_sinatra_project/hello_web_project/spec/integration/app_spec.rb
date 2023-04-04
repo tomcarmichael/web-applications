@@ -32,4 +32,11 @@ describe Application do
       expect(response.status).to eq(200)
     end
   end
+
+  context "GET /hello" do
+    it "Displays a Hello! message" do
+      response = get('/hello')
+      expect(response.body).to include('<h1>Hello!</h1>')
+    end
+  end
 end
