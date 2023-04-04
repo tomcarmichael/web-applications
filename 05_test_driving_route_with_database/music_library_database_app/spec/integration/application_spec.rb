@@ -65,21 +65,21 @@ describe Application do
     end
   end
 
-  # context "GET /albums/:id" do
-  #   it 'Returns the HTML content for album of ID #1' do
-  #     response = get('/albums/1')
-  #     expect(response.status).to eq(200)
-  #     expect(response.body).to include('<h1>Doolittle</h1>')
-  #     expect(response.body).to include('Release year: 1989')
-  #   end
+  context "GET /albums/:id" do
+    it 'Returns the HTML content for album of ID #1' do
+      response = get('/albums/1')
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Doolittle</h1>')
+      expect(response.body).to include('Release year: 1989')
+    end
 
-  #   it 'Returns the HTML content for album of ID #2' do
-  #   response = get('/albums/2')
-  #   expect(response.status).to eq(200)
-  #   expect(response.body).to include('<h1>Surfer Rosa</h1>')
-  #   expect(response.body).to include('Release year: 1988')
-  # end
-  # end
+    it 'Returns the HTML content for album of ID #2' do
+      response = get('/albums/2')
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Surfer Rosa</h1>')
+      expect(response.body).to include('Release year: 1988')
+    end
+  end
 
   context "GET /albums" do
     it "returns a list of albums within HTML content" do
@@ -87,7 +87,15 @@ describe Application do
       expect(response.status).to eq(200)
       expect(response.body).to include('<h1>Albums</h1>')
       expect(response.body).to include('<div>Title: Doolittle')
-      expect(response.body).to include('Released: 1988</div>')
+      expect(response.body).to include('Released: 1988')
+    end
+
+    it "Generates links for each album by id" do
+      response = get('/albums')
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<a href="/albums/1"')
+      expect(response.body).to include('<a href="/albums/12"')
+      expect(response.body).to include('<a href="/albums/6"')
     end
   end
 end
