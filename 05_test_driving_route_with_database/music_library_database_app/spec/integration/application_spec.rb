@@ -50,4 +50,18 @@ describe Application do
       expect(response.body).to eq("Pixies, ABBA, Taylor Swift, Nina Simone")
     end
   end
+
+  context "POST /artists" do
+    it 'adds an artist to the DB' do
+      response = post('/artists', name: "Wild Nothing", genre: "Indie")
+      expect(response.status).to eq(200)
+      repo = ArtistRepository.new
+      artists = repo.all
+      expect(artists.length).to eq(5)
+      expect(artists.first.name).to eq('Pixies')
+      expect(artists.last.id).to eq(5)
+      expect(artists.last.name).to eq('Wild Nothing')
+      expect(artists.last.genre).to eq("Indie")
+    end
+  end
 end

@@ -32,4 +32,12 @@ class Application < Sinatra::Base
     end
     return artist_names.join(', ')
   end
+
+  post '/artists' do
+    artist = Artist.new
+    artist.name = params[:name]
+    artist.genre = params[:genre]
+    repo = ArtistRepository.new
+    repo.create(artist)
+  end
 end
