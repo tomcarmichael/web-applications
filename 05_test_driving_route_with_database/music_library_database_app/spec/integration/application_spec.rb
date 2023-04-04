@@ -44,12 +44,31 @@ describe Application do
   end
 
   context "GET /artists" do
-    it 'returns all artists' do
+    it 'returns a list of links to all artists' do
       response = get('/artists')
       expect(response.status).to eq(200)
-      expect(response.body).to eq("Pixies, ABBA, Taylor Swift, Nina Simone")
+      expect(response.body).to include('<a href="/artists/1">Pixies</a>')
+      expect(response.body).to include('<a href="/artists/4">Nina Simone</a>')
+      expect(response.body).to include('<a href="/artists/2">ABBA</a>')
     end
   end
+
+  context "GET /artists/:id" do
+    it 'Returns the HTML content for artist of ID #1' do
+      response = get('/artists/1')
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Pixies</h1>')
+      expect(response.body).to include('Genre: Rock')
+    end
+
+    it 'Returns the HTML content for album of ID #4' do
+      response = get('/artists/4')
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Nina Simone</h1>')
+      expect(response.body).to include('Genre: Pop')
+    end
+  end
+
 
   context "POST /artists" do
     it 'adds an artist to the DB' do
@@ -98,4 +117,5 @@ describe Application do
       expect(response.body).to include('<a href="/albums/6"')
     end
   end
+
 end
