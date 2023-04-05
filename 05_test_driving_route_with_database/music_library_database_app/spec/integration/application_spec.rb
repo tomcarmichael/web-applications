@@ -152,8 +152,40 @@ describe Application do
     end
   end
 
+  context "GET /add_album" do
+    it "Displays a form to add an album" do
+      response = get('/add_album')
+      expect(response.status).to eq (200)
+      expect(response.body).to include ('<form method="POST" action="/add_album">')
+      expect(response.body).to include ('<input type="text" name="title" />')
+      expect(response.body).to include ('<input type="text" name="artist_id" />')
+    end
+  end
 
-  
+  context "POST /add_album" do
+    it "Adds Voulez-vous album to the database" do
+      response = post('/add_album', title: 'Voulez-vous', release_year: 1972, artist_id: 2)
+      expect(response.status).to eq (200)
+      expect(response.body).to include ('<h1>You added Voulez-vous</h1>')
+      expect(response.body).to include ('<h2>Release year: 1972</h2>')
+      response = get('/albums')
+      expect(response.status).to eq(200)
+      expect(response.body).to include('Title: Voulez-vous')
+      expect(response.body).to include('<a href="/albums/13">')
+      expect(response.body).to include('Released: 1972')
 
 
+    end
+
+    it "Adds Doggerel album to the database" do
+      response = post('/add_album', title: 'Doggerel', release_year: 2022, artist_id: 1)
+      expect(response.status).to eq (200)
+      expect(response.body).to include ('<h1>You added Doggerel</h1>')
+      expect(response.body).to include ('<h2>Release year: 2022</h2>')
+      response = get('/albums')
+      expect(response.body).to include('Title: Doggerel')
+      expect(response.body).to include('<a href="/albums/13">')
+      expect(response.body).to include('Released: 2022')
+    end
+  end
 end
