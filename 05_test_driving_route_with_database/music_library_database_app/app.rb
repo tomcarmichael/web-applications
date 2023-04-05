@@ -71,6 +71,7 @@ class Application < Sinatra::Base
     @artist.genre = params[:genre]
     repo = ArtistRepository.new
     repo.create(@artist)
+    puts "Added artist!" # Testing that these messages are printed to terminal screen in rackup logs
     return erb(:confirm_add_artist)
   end
 
