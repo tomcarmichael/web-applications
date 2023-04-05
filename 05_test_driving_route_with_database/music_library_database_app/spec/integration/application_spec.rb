@@ -118,4 +118,42 @@ describe Application do
     end
   end
 
+  context "GET /add_artist" do
+    it "Displays a form to add an artist" do
+      response = get('/add_artist')
+      expect(response.status).to eq (200)
+      expect(response.body).to include ('<form method="POST" action="/add_artist">')
+      expect(response.body).to include ('<input type="text" name="name" />')
+      expect(response.body).to include ('<input type="text" name="genre" />')
+    end
+  end
+
+
+  context "POST /add_artist" do
+    it "Adds Curtis Mayfield artist to the database" do
+      response = post('/add_artist', name: 'Curtis Mayfield', genre: 'Soul')
+      expect(response.status).to eq (200)
+      expect(response.body).to include ('<h1>You added Curtis Mayfield</h1>')
+      expect(response.body).to include ('<h2>Genre: Soul</h2>')
+      response = get('/artists')
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<a href="/artists/5">Curtis Mayfield</a>')
+
+    end
+
+    it "Adds Outkast artist to the database" do
+      response = post('/add_artist', name: 'Outkast', genre: 'Hip-hop')
+      expect(response.status).to eq (200)
+      expect(response.body).to include ('<h1>You added Outkast</h1>')
+      expect(response.body).to include ('<h2>Genre: Hip-hop</h2>')
+      response = get('/artists')
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<a href="/artists/5">Outkast</a>')
+    end
+  end
+
+
+  
+
+
 end

@@ -29,7 +29,7 @@ class Application < Sinatra::Base
     # return "The album title is #{@album.title}"
     artist_repo = ArtistRepository.new
     @artist = artist_repo.find(@album.artist_id)
-    return erb(:album)
+    return erb(:album )
   end
 
   post '/albums' do
@@ -59,5 +59,20 @@ class Application < Sinatra::Base
     artist.genre = params[:genre]
     repo = ArtistRepository.new
     repo.create(artist)
+  end
+
+  get '/add_artist' do
+    return erb(:add_artist)
+  end
+
+  post '/add_artist' do
+    @name = params[:name]
+    @genre = params[:genre]
+    artist = Artist.new
+    artist.name = @name
+    artist.genre = @genre
+    repo = ArtistRepository.new
+    repo.create(artist)
+    return erb(:confirm_add_artist)
   end
 end
